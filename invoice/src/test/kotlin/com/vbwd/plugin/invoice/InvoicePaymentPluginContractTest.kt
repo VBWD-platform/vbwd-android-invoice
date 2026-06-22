@@ -21,19 +21,25 @@ private class FakeApi : ApiClient {
         jsonBody: String?,
         deserializer: DeserializationStrategy<T>,
     ): T = EmptyResponse() as T
+
     override fun setToken(token: String?) = Unit
-    override fun on(event: ApiEvent, handler: () -> Unit) = Unit
+
+    override fun on(
+        event: ApiEvent,
+        handler: () -> Unit,
+    ) = Unit
 }
 
 class InvoicePaymentPluginContractTest {
     private fun sdk() = DefaultPlatformSdk(FakeApi(), ApiClientConfig("http://x"), DefaultEventBus(FakeApi()))
 
     @Test
-    fun `install registers the invoice section with no payment action (goes straight to confirmation)`() = runTest {
-        val platform = sdk()
-        InvoicePaymentPlugin().install(platform)
-        assertTrue(platform.getComponents().containsKey("PaymentMethodInvoice"))
-        assertTrue(platform.components.supportedPaymentMethodCodes().contains("invoice"))
-        assertNull(platform.components.paymentAction("invoice"))
-    }
+    fun `install registers the invoice section with no payment action (goes straight to confirmation)`() =
+        runTest {
+            val platform = sdk()
+            InvoicePaymentPlugin().install(platform)
+            assertTrue(platform.getComponents().containsKey("PaymentMethodInvoice"))
+            assertTrue(platform.components.supportedPaymentMethodCodes().contains("invoice"))
+            assertNull(platform.components.paymentAction("invoice"))
+        }
 }

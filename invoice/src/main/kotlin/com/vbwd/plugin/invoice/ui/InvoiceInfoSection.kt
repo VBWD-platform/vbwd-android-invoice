@@ -21,8 +21,9 @@ fun InvoiceInfoSection() {
         verticalArrangement = Arrangement.spacedBy(ROW_SPACING),
     ) {
         Text(
-            text = "An invoice will be sent to your email address. Payment is due within the period " +
-                "specified on the invoice.",
+            text =
+                "An invoice will be sent to your email address. Payment is due within the period " +
+                    "specified on the invoice.",
             style = MaterialTheme.typography.bodySmall,
         )
         Text(
